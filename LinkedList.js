@@ -61,7 +61,10 @@ List.prototype = {
         Insert a new Node at the head of the list.
     */
     insertAtHead: function(data) {
-        // Enter code here!
+        var newNode = this.makeNode();
+        newNode.data = data;
+        newNode.next = this.start;
+        this.start = newNode;
     },
 
     /*
@@ -69,7 +72,13 @@ List.prototype = {
         Traverse the list. Return the amount of Nodes in the list.
     */
     length: function() {
-        // Enter code here!
+        var count = 0;
+        var current = this.start;
+        while(current !== null){
+            count += 1;
+            current = current.next;
+        }
+        console.log(count);
     },
 
     /*
@@ -78,7 +87,16 @@ List.prototype = {
         true. If not, return false
     */
     exists: function(data) {
-        // Enter code here!
+        var current = this.start;
+        while(current !== null){
+            if(current.data === data){
+                return true
+            } else{
+                current = current.next;
+            }
+        }
+
+        return false;
     },
 
     /*
@@ -87,7 +105,11 @@ List.prototype = {
         Example: f(current);
     */
     each: function(f) {
-        // Enter code here!
+        var current = this.start;
+        while(current !== null){
+            f(current);
+            current = current.next;
+        }
     },
 
     /*
@@ -96,7 +118,18 @@ List.prototype = {
          index (integer) of that Node's location.
     */
     indexOf: function(data) {
-        // Enter code here!
+        var current = this.start;
+        var index = 0;
+        if(current === null){
+            return null;
+        }
+        while(current.next !== null){
+            if(current.data === data){
+                return index;
+            }
+            index++;
+            current = current.next;
+        }
     },
 
     /*
@@ -104,7 +137,16 @@ List.prototype = {
         Traverse the list to the ith position and return the corresponding data.
               */
     dataFrom: function(i) {
-        // Enter code here!
+        var current = this.start;
+        var index = 0;
+        while(current !== null){
+            if(index === i){
+                return current.data;
+            }
+            index++;
+            current = current.next;
+        }
+        return null;
     },
 
     /*
@@ -113,7 +155,20 @@ List.prototype = {
          after it.  You must preserve the list structure!
     */
     insertAt: function(i, data){
-        // Enter code here!
+        var previousNode;
+        var newNode = this.makeNode();
+        newNode.data = data;
+        var current = this.start;
+        var index = 0;
+        while(current !== null){
+            if(index === i - 1){
+                newNode.next = current.next;
+                current.next = newNode;
+                return "inserted";
+            }
+            index++;
+            current = current.next;
+        }
     },
 
     /*
@@ -123,10 +178,41 @@ List.prototype = {
         you remove the node!
     */
     delete: function(data) {
-        // Enter code here!
+        var current1 = this.start;
+        var current2 = this.start;
+        var firstIndex = 0;
+        var secondIndex = 0;
+        var indexToDelete;
+        var newNext;
+
+        if(current1.data === data){
+            this.start = current1.next; 
+            return;
+        }
+
+        while(current1 !== null && !indexToDelete){
+            if(current1.data === data){
+                indexToDelete = firstIndex;
+                newNext = current1.next;
+            }
+            firstIndex++;
+            current1 = current1.next;
+        }
+        while(current2 !== null){
+            if(secondIndex === indexToDelete - 1)
+            {
+                current2.next = newNext;
+                return;
+            }
+            secondIndex++;
+            current2 = current2.next;
+        }
     }
 }
 
+function testCallback(obj){
+    console.log(obj.data);
+}
 
 /* LinkedList initialization */
 var LinkedList = new List();
